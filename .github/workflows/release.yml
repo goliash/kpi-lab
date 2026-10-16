@@ -1,0 +1,33 @@
+# Builds KPI Lab for Windows, Mac and Linux and attaches the files to a GitHub release.
+# Runs when you push a tag like v1.0.0 (it must match "version" in desktop/package.json).
+name: Release desktop apps
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: desktop
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Use the same app files as the web version
+        shell: bash
+        run: cp ../css/style.css ../css/kpi-lab.css ../css/kpi-lab-app.css ../js/kpi-lab.js app/
+      - run: npm install
+      - name: Build and publish
+        run: npx electron-builder --publish always
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CSC_IDENTITY_AUTO_DISCOVERY: 'false'

@@ -1,0 +1,116 @@
+{
+  "name": "kpi-lab",
+  "productName": "KPI Lab",
+  "version": "1.0.0",
+  "description": "KPI Lab by John Goliash: 14 inventory, ordering, shipping and plant-floor measures, with the formula and a plain-words lesson for each. Runs offline.",
+  "author": {
+    "name": "John Goliash",
+    "email": "goliash@users.noreply.github.com"
+  },
+  "homepage": "https://github.com/goliash/kpi-lab",
+  "private": true,
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder",
+    "dist:win": "electron-builder --win",
+    "dist:mac": "electron-builder --mac",
+    "dist:linux": "electron-builder --linux"
+  },
+  "devDependencies": {
+    "electron": "44.5.1",
+    "electron-builder": "26.16.1"
+  },
+  "build": {
+    "appId": "com.goliash.kpilab",
+    "productName": "KPI Lab",
+    "files": [
+      "main.js",
+      "app/**/*",
+      "build/icon.png"
+    ],
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "build/icon.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "artifactName": "KPI-Lab-Setup.${ext}"
+    },
+    "portable": {
+      "artifactName": "KPI-Lab-Portable.${ext}"
+    },
+    "mac": {
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "arm64",
+            "x64"
+          ]
+        }
+      ],
+      "category": "public.app-category.business",
+      "icon": "build/icon.png",
+      "identity": "-",
+      "hardenedRuntime": false,
+      "gatekeeperAssess": false
+    },
+    "dmg": {
+      "artifactName": "KPI-Lab-mac-${arch}.${ext}"
+    },
+    "linux": {
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "deb",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "category": "Office",
+      "icon": "build/icon.png",
+      "maintainer": "John Goliash <goliash@users.noreply.github.com>"
+    },
+    "appImage": {
+      "artifactName": "KPI-Lab-linux-x86_64.${ext}"
+    },
+    "deb": {
+      "artifactName": "KPI-Lab-linux-amd64.${ext}"
+    },
+    "publish": {
+      "provider": "github",
+      "owner": "goliash",
+      "repo": "kpi-lab",
+      "releaseType": "release"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/goliash/kpi-lab.git"
+  },
+  "license": "MIT"
+}
