@@ -1,5 +1,0 @@
-/* KPI Lab desktop app: the window is the app (see main.js). */
-html, body { height: 100%; margin: 0; background: var(--bg); overflow: hidden; }
-body::before, body::after { display: none !important; }
-#lab { padding: 0; }
-.kapp-status span:last-child { display: inline; }

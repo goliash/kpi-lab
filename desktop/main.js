@@ -4,7 +4,7 @@
    Measures / View / Help menus, so Electron's menu bar is turned off.
    Nothing is loaded from the internet; links to websites open in the
    normal browser. Saved numbers stay in the app's own storage. */
-const { app, BrowserWindow, Menu, shell, session } = require('electron');
+const { app, BrowserWindow, Menu, shell, session, ipcMain } = require('electron');
 const path = require('path');
 
 function isWeb(url) { return /^https:\/\//i.test(url); }
@@ -14,8 +14,15 @@ function createWindow() {
     width: 1120, height: 800, minWidth: 360, minHeight: 560,
     title: 'KPI Lab', backgroundColor: '#0f151c', show: false,
     icon: path.join(__dirname, 'build', 'icon.png'),
-    webPreferences: { contextIsolation: true, sandbox: true, nodeIntegration: false, spellcheck: false }
+    webPreferences: {
+      contextIsolation: true,
+      sandbox: true,
+      nodeIntegration: false,
+      spellcheck: false,
+      preload: path.join(__dirname, 'preload.js')
+    }
   });
+  ipcMain.on('app-close', () => { try { win.close(); } catch (e) {} });
   win.once('ready-to-show', () => win.show());
   win.loadFile(path.join(__dirname, 'app', 'index.html'));
 
