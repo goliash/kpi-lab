@@ -38,6 +38,33 @@ npm start
 Release a new version: bump `version` in `desktop/package.json`, then
 `git tag v1.0.1 && git push --tags`.
 
+## Connecting Your Own Google Analytics (GA4)
+
+You can track how visitors interact with the 14 measures (which calculators are selected, calculated, or exported) using your own Google Analytics 4 property:
+
+### 1. Web & PWA Version
+In `index.html`:
+- Replace `G-XXXXXXXXXX` with your Google Analytics 4 Measurement ID.
+- Replace `GTM-XXXXXXX` with your Google Tag Manager Container ID.
+
+### 2. Desktop App (Electron)
+In the `desktop/` folder:
+- Copy `telemetry-config.example.json` to `telemetry-config.json`:
+  ```json
+  {
+    "measurementId": "G-YOUR-ID-HERE",
+    "enabled": true
+  }
+  ```
+- Alternatively, launch with an environment variable:
+  ```bash
+  export GA_MEASUREMENT_ID="G-YOUR-ID-HERE"
+  npm start
+  ```
+- To disable all telemetry, set `"enabled": false` or `GA_DISABLE=1`.
+
+> **Privacy Guarantee:** Telemetry only transmits the event name, measure name (e.g. "Inventory turns"), and action type (e.g. CSV download). Zero user input numbers or financial values are ever transmitted.
+
 ## License
 
 [MIT](LICENSE).

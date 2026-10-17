@@ -1,0 +1,5 @@
+{
+  "_comment": "Rename to telemetry-config.json to customize Google Analytics telemetry for the desktop app.",
+  "measurementId": "G-XXXXXXXXXX",
+  "enabled": true
+}
