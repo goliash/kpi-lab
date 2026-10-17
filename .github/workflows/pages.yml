@@ -16,7 +16,7 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
-      - run: mkdir _site && cp -r index.html kpi-lab.webmanifest kpi-sw.js css js img _site/
+      - run: mkdir _site && cp -r index.html telemetry-vault-demo.html analytics-auth.json kpi-lab.webmanifest kpi-sw.js css js img _site/
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

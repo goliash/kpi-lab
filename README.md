@@ -65,6 +65,17 @@ In the `desktop/` folder:
 
 > **Privacy Guarantee:** Telemetry only transmits the event name, measure name (e.g. "Inventory turns"), and action type (e.g. CSV download). Zero user input numbers or financial values are ever transmitted.
 
+## Telemetry Vault Dashboard (Demo on GitHub Pages)
+
+The repository includes a password-protected Telemetry & Analytics Dashboard featuring a live event stream console, 14-measure dispatch simulation matrix, and Google Looker Studio report embedding:
+
+- **Live Demo on GitHub Pages**: [https://goliash.github.io/kpi-lab/telemetry-vault-demo.html](https://goliash.github.io/kpi-lab/telemetry-vault-demo.html)
+- **Demo Access Key**: `demo-analytics-2026!`
+- **Running Your Own Vault**:
+  1. Rename `telemetry-vault-demo.html` to your own private secret URL (e.g. `telemetry-vault-<random-token>.html`).
+  2. Set your custom salt and password hash in `analytics-auth.json` (or use `tools/set-analytics-password.py`).
+  3. Enter your own Looker Studio embed URL in the dashboard to view your custom analytics reports.
+
 ## License
 
 [MIT](LICENSE).

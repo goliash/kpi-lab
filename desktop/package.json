@@ -1,7 +1,7 @@
 {
   "name": "kpi-lab",
   "productName": "KPI Lab",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "KPI Lab by John Goliash: 14 inventory, ordering, shipping and plant-floor measures, with the formula and a plain-words lesson for each. Runs offline.",
   "author": {
     "name": "John Goliash",
