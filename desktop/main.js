@@ -8,6 +8,7 @@
 const { app, BrowserWindow, Menu, shell, session, ipcMain } = require('electron');
 const path = require('path');
 const fs = require('fs');
+const os = require('os');
 const crypto = require('crypto');
 
 function isWeb(url) { return /^https?:\/\//i.test(url); }
@@ -61,19 +62,34 @@ async function sendTelemetry(data) {
 
   const cid = getAnonymousClientId();
   const eventName = data.event || 'kpi_desktop_interaction';
+  const now = new Date();
+  const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const uptime = Math.round(process.uptime());
+
   const params = new URLSearchParams({
     v: '2',
     tid: tid,
     cid: cid,
     en: eventName,
     'ep.app_platform': 'desktop',
-    'ep.content_type': 'kpi_measure'
+    'ep.content_type': 'kpi_measure',
+    'ep.os_name': os.platform(),
+    'ep.os_version': os.release(),
+    'ep.system_arch': os.arch(),
+    'ep.app_version': app.getVersion(),
+    'ep.runtime_seconds': String(uptime),
+    'ep.local_hour': String(now.getHours()),
+    'ep.local_day': days[now.getDay()],
+    'ep.time_of_use': `${days[now.getDay()]} ${now.getHours()}:00`
   });
 
   if (data.measure_id) params.set('ep.measure_id', data.measure_id);
   if (data.measure_name) params.set('ep.measure_name', data.measure_name);
   if (data.measure_group) params.set('ep.measure_group', data.measure_group);
   if (data.action_name) params.set('ep.action_name', data.action_name);
+  if (data.download_type) params.set('ep.download_type', data.download_type);
+  if (data.active_duration_seconds) params.set('ep.active_duration_seconds', String(data.active_duration_seconds));
+  if (data.distinct_measures_count) params.set('ep.distinct_measures_count', String(data.distinct_measures_count));
 
   try {
     const url = `https://www.google-analytics.com/g/collect?${params.toString()}`;
@@ -134,7 +150,15 @@ app.whenReady().then(() => {
   });
 
   createWindow();
+  sendTelemetry({ event: 'kpi_app_launch' });
   app.on('activate', () => { if (BrowserWindow.getAllWindows().length === 0) createWindow(); });
+});
+
+app.on('before-quit', () => {
+  sendTelemetry({
+    event: 'kpi_app_quit',
+    runtime_seconds: Math.round(process.uptime())
+  });
 });
 
 app.on('window-all-closed', () => { if (process.platform !== 'darwin') app.quit(); });
